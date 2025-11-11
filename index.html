@@ -491,7 +491,7 @@
     <main class="results-section">
         <div class="results-header">
             <h1>Zorgverleners in Breda</h1>
-            <p class="subtext">34 aanbieders gevonden</p>
+            <p class="subtext" id="results-count">0 aanbieders gevonden</p>
         </div>
 
         <div class="active-filters-wrapper">
@@ -607,95 +607,10 @@
             </aside>
 
             <!-- Results List -->
-            <section class="results-list">
-                <!-- Provider Card 1 -->
-                <div class="provider-card">
-                    <div class="provider-header">
-                        <h2 class="provider-name">Praktijk Mentaal Welbevinden</h2>
-                        <button class="favorite-btn" aria-label="Voeg toe aan favorieten">☐</button>
-                    </div>
-                    <div class="provider-badges">
-                        <span class="badge contract-cz">Contract CZ</span>
-                        <span class="badge waiting">🕒 x weken</span>
-                        <span class="badge stress">Stress & burn-out</span>
-                    </div>
-                    <div class="provider-info">
-                        <div class="info-item">
-                            📍 4,0 km
-                        </div>
-                        <div class="info-item">
-                            ⭐ 8,6 (034)
-                        </div>
-                    </div>
-                    <a href="#" class="details-link">Bekijk details</a>
-                </div>
-
-                <!-- Provider Card 2 -->
-                <div class="provider-card">
-                    <div class="provider-header">
-                        <h2 class="provider-name">GGZ Centrum Breda</h2>
-                        <button class="favorite-btn" aria-label="Voeg toe aan favorieten">☐</button>
-                    </div>
-                    <div class="provider-badges">
-                        <span class="badge contract-cz">Contract CZ</span>
-                        <span class="badge waiting">🕒 2-4 weken</span>
-                        <span class="badge stress">Angst & Depressie</span>
-                    </div>
-                    <div class="provider-info">
-                        <div class="info-item">
-                            📍 5,2 km
-                        </div>
-                        <div class="info-item">
-                            ⭐ 8,2 (73)
-                        </div>
-                    </div>
-                    <a href="#" class="details-link">Bekijk details</a>
-                </div>
-
-                <!-- Provider Card 3 -->
-                <div class="provider-card">
-                    <div class="provider-header">
-                        <h2 class="provider-name">Psychologenpraktijk De Haven</h2>
-                        <button class="favorite-btn" aria-label="Voeg toe aan favorieten">☐</button>
-                    </div>
-                    <div class="provider-badges">
-                        <span class="badge waiting">🕒 x+ weken</span>
-                        <span class="badge stress">Stress & burn-out</span>
-                    </div>
-                    <div class="provider-info">
-                        <div class="info-item">
-                            📍 6,8 km
-                        </div>
-                        <div class="info-item">
-                            ⭐ 9,1 (203)
-                        </div>
-                    </div>
-                    <a href="#" class="details-link">Bekijk details</a>
-                </div>
-
-                <!-- Provider Card 4 -->
-                <div class="provider-card">
-                    <div class="provider-header">
-                        <h2 class="provider-name">Mindcare Praktijk</h2>
-                        <button class="favorite-btn" aria-label="Voeg toe aan favorieten">☐</button>
-                    </div>
-                    <div class="provider-badges">
-                        <span class="badge contract-cz">Contract CZ</span>
-                        <span class="badge waiting">🕒 6-8 weken</span>
-                        <span class="badge stress">Stress & burn-out</span>
-                    </div>
-                    <div class="provider-info">
-                        <div class="info-item">
-                            📍 7,5 km
-                        </div>
-                        <div class="info-item">
-                            ⭐ 7,9 (54)
-                        </div>
-                    </div>
-                    <a href="#" class="details-link">Bekijk details</a>
-                </div>
+            <section class="results-list" id="results-list">
             </section>
         </div>
     </main>
+    <script src="script.js"></script>
 </body>
 </html>
