@@ -1,0 +1,45 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": ["id","name","type","address","contract","specializations","languages","updated_at"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "name": { "type": "string", "minLength": 3 },
+        "type": { "type": "string", "enum": ["psychologist","ggz"] },
+        "address": {
+          "type": "object",
+          "required": ["street","postcode","city"],
+          "properties": {
+            "street": { "type": "string" },
+            "postcode": { "type": "string" },
+            "city": { "type": "string" }
+          }
+        },
+        "contract": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["contracted","not_contracted","cap_reached"] },
+            "note": { "type": "string" }
+          }
+        },
+        "waiting_time_weeks": { "type": ["number","null"], "minimum": 0 },
+        "specializations": { "type": "array", "items": { "type": "string" } },
+        "languages": { "type": "array", "items": { "type": "string" } },
+        "digital_options": { "type": "array", "items": { "type": "string" } },
+        "rating": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number", "minimum": 0, "maximum": 10 },
+            "count": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "updated_at": { "type": "string", "format": "date" }
+      }
+    }
+  }
+  
