@@ -211,10 +211,11 @@ ul {
 }
 
 .praktijk-info {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 30px;
+    /* Make praktijk-info inline with page (no card) */
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0 0 20px 0; /* keep some bottom spacing */
 }
 
 .praktijk-info h1 {
