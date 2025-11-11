@@ -6,9 +6,9 @@
 <title>CZ - Vind de juiste zorgverlener</title>
 <style>
     :root{
-        --cz-red: #c93f3f;
-        --cz-orange: #d9642a;
-        --bg: #faf3f2;
+        --cz-red: #E40429;
+        --cz-orange: #EC6608;
+        --bg: #FEF6F3;
         --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     }
     *{margin:0;padding:0;box-sizing:border-box}
@@ -106,7 +106,7 @@
         flex:1;
         margin-left:160px;
     }
-    .main-nav a{ color:#333; text-decoration:none; font-size:15px; font-weight:500; display:flex; align-items:center; gap:5px; user-select:none}
+    .main-nav a{ color:#000000; text-decoration:none; font-size:15px; font-weight:500; display:flex; align-items:center; gap:5px; user-select:none}
     .main-nav a.home img{width:20px;height:20px;display:block}
     .dropdown img{ width:10px;height:10px;margin-left:5px;display:block }
 
@@ -114,7 +114,7 @@
     .search-box{
         display:flex;
         align-items:center;
-        border:2px solid #ddd;
+        border:1px solid #716F6A;
         border-radius:4px;
         padding:8px 15px;
         background:white;
@@ -140,12 +140,12 @@
         text-align:left;
     }
     .form-group{ margin-bottom:25px }
-    .form-group label{ display:block; font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:12px; text-align:left }
+    .form-group label{ display:block; font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:12px; text-align:left; font-weight: bold; }
 
     .input-wrapper{ position:relative }
     .input-wrapper .input-icon{ position:absolute; left:14px; top:50%; transform:translateY(-50%); width:18px; height:18px; opacity:.7; pointer-events:none }
     .input-wrapper input{
-        width:100%; padding:14px 14px 14px 44px; border:1px solid #ddd; border-radius:4px; font-size:14px; outline:none; transition:border-color .2s
+        width:100%; padding:14px 14px 14px 44px; border:1px solid #D0CFCD; border-radius:10px; font-size:14px; outline:none; transition:border-color .2s
     }
     .input-wrapper input:focus{ border-color:var(--cz-red) }
 
@@ -165,9 +165,9 @@
         gap:10px;
         transition:background .2s;
     }
-    .submit-btn:hover{ background:#b33939 }
+    .submit-btn:hover{ background:#e40429 }
     .submit-btn img{ width:18px;height:18px;display:block }
-    input::placeholder{ color:#999 }
+    input::placeholder{ color:#716F6A }
 
     /* --- Responsive tweaks --- */
     @media (max-width: 760px){
