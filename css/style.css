@@ -196,14 +196,14 @@ ul {
     text-decoration: underline;
 }
 
-/* Content Wrapper */
+
 .content-wrapper {
     display: grid;
     grid-template-columns: 1fr 350px;
     gap: 30px;
 }
 
-/* Left Column */
+
 .left-column {
     display: flex;
     flex-direction: column;
@@ -211,15 +211,15 @@ ul {
 }
 
 .praktijk-info {
-    /* Make praktijk-info inline with page (no card) */
+    
     background: transparent;
     border-radius: 0;
     box-shadow: none;
-    padding: 0 0 20px 0; /* keep some bottom spacing */
+    padding: 0 0 20px 0;
 }
 
 .praktijk-info h1 {
-    font-size: 28px;
+    font-size: 40px;
     margin-bottom: 20px;
     color: #333;
 }
