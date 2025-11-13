@@ -6,7 +6,7 @@
 <title>CZ - Vind de juiste zorgverlener</title>
 <style>
     :root{
-        --cz-red: #E70426;
+        --cz-red: #E40429;
         --cz-orange: #EC6608;
         --bg: #FAFAF9;
         --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
@@ -19,7 +19,7 @@
     }
 
     .top-nav {
-        position: relative; /* allow absolute-positioned logo inside */
+        position: relative;
         background: linear-gradient(to right, var(--cz-orange) 0%, var(--cz-red) 100%);
         padding: 11px 41px;
         display: flex;
@@ -84,11 +84,14 @@
 
     /* --- Main Header --- */
     .main-header{
+        position: relative;
         background: white;
         padding: 10px 30px 8px; /* more top padding to prevent collision with overlapping badge */
         display:flex;
         align-items:center;
         box-shadow: 0 2px 4px rgb(0 0 0 / 0.06);
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+        z-index: 10;
         justify-content: space-between;
         margin-top: 0px; /* small gap so the shadow reads well under top-nav */
     }
