@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CZ - Vind de juiste zorgverlener</title>
+<style>
+    :root{
+        --cz-red: #E40429;
+        --cz-orange: #EC6608;
+        --bg: #F5F5F5;
+        --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+        font-family:var(--font-main);
+        background:var(--bg);
+        min-height:100vh;
+    }
+ 
+    /* --- Top Navigation --- */
+    .top-nav {
+        position: relative;
+        background: linear-gradient(to right, var(--cz-orange) 0%, var(--cz-red) 100%);
+        padding: 11px 41px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+ 
+    .top-nav-left{
+        display:flex;
+        align-items:center;
+        gap:25px;
+    }
+ 
+    .top-nav-logo {
+        position: absolute;
+        left: 220px;
+        bottom: -44px;
+        width: 88px;
+        height: 88px;
+        flex-shrink:0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+ 
+    .top-nav-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+ 
+    .top-nav-links {
+        display: flex;
+        gap: 25px;
+        font-weight: 600;
+        font-size: 14px;
+        color: white;
+        user-select: none;
+        padding-left: 335px;
+    }
+ 
+    .top-nav-links a {
+        color:white;
+        text-decoration:none;
+        font-weight:600;
+        transition:opacity .2s
+    }
+    .top-nav-links a:hover{opacity:.8}
+ 
+    .login-btn {
+        background: white;
+        color: var(--cz-red);
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+        text-decoration: none;
+    }
+    .login-btn img{width:16px;height:16px;display:block}
+ 
+    /* --- Main Header --- */
+    .main-header{
+        background: white;
+        padding: 10px 30px 8px;
+        display:flex;
+        align-items:center;
+        box-shadow: 0 2px 4px rgb(0 0 0 / 0.06);
+        justify-content: space-between;
+        margin-top: 0px;
+    }
+ 
+    @media (min-width: 760px) {
+      .main-header { padding-left: 160px; }
+    }
+ 
+    .main-nav{
+        display:flex;
+        gap:30px;
+        align-items:center;
+        flex:1;
+        margin-left:160px;
+    }
+ 
+    .main-nav a{
+        color:#000000;
+        text-decoration:none;
+        font-size:15px;
+        font-weight:500;
+        display:flex;
+        align-items:center;
+        gap:5px;
+        user-select:none
+    }
+    .main-nav a.home img{width:20px;height:20px;display:block}
+    .dropdown img{ width:10px;height:10px;margin-left:5px;display:block }
+ 
+    /* Search Box */
+    .search-box{
+        display:flex;
+        align-items:center;
+        border:1px solid #716F6A;
+        border-radius:4px;
+        padding:8px 15px;
+        background:white;
+        min-width:250px;
+    }
+    .search-box input{ border:none; outline:none; flex:1; font-size:14px }
+    .search-box button{ background:none; border:none; color:var(--cz-red); cursor:pointer; padding:0; display:flex; align-items:center }
+    .search-box button img{ width:18px; height:18px; display:block }
+ 
+    /* --- Responsive tweaks --- */
+    @media (max-width: 760px){
+        .top-nav { padding: 8px 16px; }
+        .top-nav-logo { left: 16px; width:64px; height:64px; bottom:-34px; padding:6px; }
+        .main-header{ padding-left: 16px; padding-right:16px; padding-top:22px; }
+    }
+    /* --- Comparison section styles --- */
+    .comparison-wrap{
+        max-width:1200px;
+        margin:48px auto;
+        padding:0 20px 80px;
+    }
+    .back-link{ color:#3a3a3a; display:inline-flex; align-items:center; gap:10px; font-size:14px; text-decoration:none; margin-bottom:18px }
+    .comparison-header{ margin:6px 0 18px }
+    .comparison-header h2{ font-size:24px; color:#111; margin-bottom:6px }
+    .comparison-sub{ color:#777; font-size:13px }
+
+    /* --- Comparison Table --- */
+    .compare-table {
+        display: grid;
+        grid-template-columns: 180px repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+    }
+
+    .table-row {
+        display: contents;
+    }
+
+    .header-row {
+        display: contents;
+    }
+
+    .buttons-row {
+        display: contents;
+    }
+
+    .table-label {
+        background: #F9F9F9;
+        border: 1px solid #EDEDED;
+        padding: 14px;
+        border-radius: 8px;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .table-provider-card {
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid #EDEDED;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .table-cell {
+        background: #fff;
+        border: 1px solid #EDEDED;
+        padding: 14px;
+        border-radius: 8px;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .table-cell.center {
+        justify-content: center;
+    }
+
+    .compare-grid{
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap:18px;
+        align-items:stretch;
+        margin-top:18px;
+    }
+
+    .compare-column{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+        height:100%;
+    }
+
+    .compare-card{
+        background:#fff;
+        border-radius:8px;
+        border:1px solid #EDEDED;
+        padding:12px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        min-height:52px;
+        text-align:center;
+        font-weight:700;
+        font-size:14px;
+        flex-grow:0;
+    }
+
+    .compare-row{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:18px }
+    .cell{ background:#fff; border:1px solid #EDEDED; padding:14px; border-radius:8px; min-height:52px; display:flex; align-items:center; flex-grow:1 }
+    .cell.center{ justify-content:center }
+
+    .special-chip{ background:#E8F5FF; color:#0b6fbf; font-weight:700; padding:6px 10px; border-radius:18px; font-size:12px }
+
+    .small{ font-size:13px; color:#444 }
+    .muted{ color:#666 }
+
+    .rating{ display:inline-flex; align-items:center; gap:8px; font-weight:700 }
+    .rating .score{ background:#fff; padding:6px 8px; border-radius:6px; border:1px solid #EDEDED }
+
+    .pill{ background:#F4F4F4; padding:6px 8px; border-radius:10px; font-size:12px; display:inline-block; margin-right:6px }
+
+    .compare-footer{ display:flex; gap:12px; margin-top:6px }
+        .btn-details{ background:var(--cz-red); color:#fff; border:none; padding:10px 12px; border-radius:8px; font-weight:700; cursor:pointer; width:100% }
+
+        .buttons-section {
+            display: grid;
+            grid-template-columns: 180px repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+            align-items: start;
+        }
+
+        .buttons-section .table-label {
+            background: transparent;
+            border: none;
+            padding: 0;
+            min-height: 0;
+        }
+
+        .buttons-section .buttons-cell { display:flex; justify-content:center }
+
+        .buttons-section .btn-details {
+            max-width: 280px;
+            width: 100%;
+        }
+
+    /* responsive: stack columns on small screens */
+    @media (max-width: 920px){
+        .compare-grid{ grid-template-columns: 1fr; }
+        .compare-row{ grid-template-columns: 1fr }
+        .compare-table { grid-template-columns: 1fr; }
+        .buttons-section { grid-template-columns: 1fr; }
+    }
+</style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="top-nav-left">
+            <a href="#" class="top-nav-logo" aria-label="CZ Home">
+                <img src="images/cz.png" alt="CZ logo" />
+            </a>
+ 
+            <div class="top-nav-links" role="navigation" aria-label="Top Navigation">
+                <a href="#">Consument</a>
+                <a href="#">Zakelijk</a>
+                <a href="#">ZZP</a>
+                <a href="#">Zorgaanbieder</a>
+                <a href="#">Over CZ</a>
+            </div>
+        </div>
+ 
+        <a href="#" class="login-btn" aria-label="Mijn CZ account">
+            <img src="images/user.png" alt="" aria-hidden="true" />
+            Mijn CZ
+        </a>
+    </nav>
+ 
+    <!-- Main Header -->
+    <header class="main-header" role="banner">
+        <nav class="main-nav" aria-label="Primary Navigation">
+            <a href="#" class="home" aria-label="Home">
+                <img src="images/home.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Zorgverzekering
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Vergoedingen
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                CZ Extra
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#">Betalen</a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Service &amp; Contact
+                <img src="images/down.png" alt="" />
+            </a>
+        </nav>
+ 
+        <div class="search-box" role="search">
+            <input type="text" placeholder="" aria-label="Zoek op website" />
+            <button aria-label="Zoeken" type="button">
+                <img src="images/search red.png" alt="" />
+            </button>
+        </div>
+    </header>
+
+    <!-- Comparison Section (prototype recreation) -->
+    <main class="comparison-wrap" role="main">
+        <a href="#" class="back-link">← Terug naar resultaten</a>
+
+        <div class="comparison-header">
+            <h2>Vergelijk aanbieders</h2>
+            <div class="comparison-sub">3 aanbieders geselecteerd</div>
+        </div>
+
+        <div class="compare-table">
+            <!-- Header Row -->
+            <div class="table-row header-row">
+                <div class="table-label">&nbsp;</div>
+                <div class="table-provider-card">Praktijk Mentaal Welbevinden</div>
+                <div class="table-provider-card">Praktijk Mentaal Welbevinden</div>
+                <div class="table-provider-card">Praktijk Mentaal Welbevinden</div>
+            </div>
+
+            <!-- Contract CZ -->
+            <div class="table-row">
+                <div class="table-label">Contract CZ</div>
+                <div class="table-cell center"><img src="images/check-mark.png" alt="check" style="width:20px;height:20px;display:block" /></div>
+                <div class="table-cell center"><img src="images/check-mark.png" alt="check" style="width:20px;height:20px;display:block" /></div>
+                <div class="table-cell center"><svg width="20" height="20" viewBox="0 0 20 20" style="display:block; margin:0 auto"><circle cx="10" cy="10" r="9" fill="none" stroke="#E40429" stroke-width="1.5"/><line x1="6" y1="6" x2="14" y2="14" stroke="#E40429" stroke-width="2"/><line x1="14" y1="6" x2="6" y2="14" stroke="#E40429" stroke-width="2"/></svg></div>
+            </div>
+
+            <!-- Wachttijd -->
+            <div class="table-row">
+                <div class="table-label">Wachttijd</div>
+                <div class="table-cell center small">&lt; 2 weken</div>
+                <div class="table-cell center small">2-4 weken</div>
+                <div class="table-cell center small">&lt; 2 weken</div>
+            </div>
+
+            <!-- Specialisatie -->
+            <div class="table-row">
+                <div class="table-label">Specialisatie</div>
+                <div class="table-cell center"><span class="special-chip">Stress &amp; burn-out</span></div>
+                <div class="table-cell center"><span class="special-chip">Angst &amp; Depressie</span></div>
+                <div class="table-cell center"><span class="special-chip">Trauma (EMDR)</span></div>
+            </div>
+
+            <!-- Afstand -->
+            <div class="table-row">
+                <div class="table-label">Afstand</div>
+                <div class="table-cell center small">📍 4,0 km</div>
+                <div class="table-cell center small">📍 5,2 km</div>
+                <div class="table-cell center small">📍 6,8 km</div>
+            </div>
+
+            <!-- Beoordeling -->
+            <div class="table-row">
+                <div class="table-label">Beoordeling</div>
+                <div class="table-cell center rating"><span class="score">★ 8.6</span><span class="muted">(124)</span></div>
+                <div class="table-cell center rating"><span class="score">★ 8.2</span><span class="muted">(73)</span></div>
+                <div class="table-cell center rating"><span class="score">★ 9.1</span><span class="muted">(203)</span></div>
+            </div>
+
+            <!-- Talen -->
+            <div class="table-row">
+                <div class="table-label">Talen</div>
+                <div class="table-cell"><span class="pill">Nederlands</span><span class="pill">Engels</span></div>
+                <div class="table-cell"><span class="pill">Nederlands</span></div>
+                <div class="table-cell"><span class="pill">Nederlands</span><span class="pill">Engels</span><span class="pill">Turks</span></div>
+            </div>
+
+            <!-- Behandelingen -->
+            <div class="table-row">
+                <div class="table-label">Behandelingen</div>
+                <div class="table-cell small">CGT · EMDR · Burn-out begeleiding</div>
+                <div class="table-cell small">CGT · Systeemtherapie</div>
+                <div class="table-cell small">EMDR · CGT · Traumabehandeling</div>
+            </div>
+
+            <!-- Online Intake -->
+            <div class="table-row">
+                <div class="table-label">Online Intake</div>
+                <div class="table-cell center"><img src="images/check-mark.png" alt="check" style="width:20px;height:20px;display:block" /></div>
+                <div class="table-cell center"><img src="images/check-mark.png" alt="check" style="width:20px;height:20px;display:block" /></div>
+                <div class="table-cell center"><img src="images/check-mark.png" alt="check" style="width:20px;height:20px;display:block" /></div>
+            </div>
+
+        </div>
+        
+            <!-- Buttons Section (aligned with grid columns) -->
+            <div class="buttons-section" role="group" aria-label="Provider actions">
+                <div class="table-label" aria-hidden="true"></div>
+                <div class="buttons-cell"><button class="btn-details" type="button">Bekijk details</button></div>
+                <div class="buttons-cell"><button class="btn-details" type="button">Bekijk details</button></div>
+                <div class="buttons-cell"><button class="btn-details" type="button">Bekijk details</button></div>
+            </div>
+    </main>
+</body>
+</html>
+ 
