@@ -6,7 +6,7 @@
 <title>CZ - Vind de juiste zorgverlener</title>
 <style>
     :root{
-        --cz-red: #E40429;
+        --cz-red: #E70426;
         --cz-orange: #EC6608;
         --bg: #F5F5F5;
         --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
@@ -236,7 +236,7 @@
     .filters-sidebar { 
         flex: 0 0 170px;
         background: white;
-        border: 1px solid #EFEEEB;
+        border: 1px solid #D0CFCD;
         border-radius: 4px;
         padding: 15px;
     }
@@ -251,9 +251,9 @@
     }
 
     .filters-header h2 {
-        font-size: 13px;
+        font-size: 18px;
         font-weight: 700;
-        color: #0066CC;
+        color: #000000;
         margin: 0;
     }
 
@@ -262,6 +262,7 @@
         color: #0066CC;
         text-decoration: none;
         cursor: pointer;
+        font-weight: bold;
     }
 
     .filters-header a:hover {
@@ -271,7 +272,7 @@
     .filter-section { 
         margin-bottom: 15px;
         padding-bottom: 15px;
-        border-bottom: 1px solid #e8e8e8;
+        border-bottom: 1px solid #D0CFCD;
     }
 
     .filter-section:last-child {
@@ -281,33 +282,106 @@
     }
     
     .filter-section h3 { 
-        font-size: 12px; 
+        font-size: 15px; 
         font-weight: 700; 
         margin-bottom: 10px; 
         color: #1a1a1a;
     }
     
-    .filter-option { 
-        display: flex; 
-        align-items: flex-start; 
-        margin-bottom: 8px; 
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 8px;
+        position: relative;
     }
-    
-    .filter-option input[type="checkbox"], 
-    .filter-option input[type="radio"] { 
-        margin-right: 7px; 
+
+    /* hide native checkbox/radio but keep it accessible; we render a custom control via the label */
+    .filter-option input[type="checkbox"],
+    .filter-option input[type="radio"] {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 14px;
+        height: 14px;
+        margin: 0;
+        padding: 0;
+        opacity: 0;
         cursor: pointer;
-        flex-shrink: 0;
-        margin-top: 2px;
-        accent-color: #E94B8D;
     }
-    
-    .filter-option label { 
-        cursor: pointer; 
-        font-size: 12px; 
-        color: #333; 
+
+    .filter-option label {
+        cursor: pointer;
+        font-size: 13px;
+        color: #333;
         margin: 0;
         line-height: 1.4;
+        padding-left: 24px; /* space for our custom control */
+        position: relative;
+        display: inline-block;
+        min-height: 14px;
+    }
+
+    /* base box/circle for unchecked state */
+    .filter-option label::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 14px;
+        height: 14px;
+        box-sizing: border-box;
+        border: 1px solid var(--cz-red);
+        background: #fff;
+        border-radius: 3px;
+    }
+
+    /* radios should be circular */
+    .filter-option input[type="radio"] + label::before {
+        border-radius: 50%;
+    }
+
+    /* checked states: show a visible red indicator */
+    .filter-option input[type="checkbox"]:checked + label::before {
+        background: var(--cz-red);
+    }
+
+    .filter-option input[type="radio"]:checked + label::before {
+        background: #fff; /* keep outer circle white so inner dot stands out */
+    }
+
+    /* inner mark: check for checkbox, dot for radio */
+    .filter-option label::after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    .filter-option input[type="checkbox"]:checked + label::after {
+        width: 6px;
+        height: 10px;
+        border: solid #fff;
+        border-width: 0 1px 1px 0;
+        transform: translateY(-50%) rotate(45deg);
+    }
+
+    .filter-option input[type="radio"]:checked + label::after {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--cz-red);
+        left: 4px;
+        transform: translateY(-50%);
+    }
+
+    /* small focus ring for keyboard users */
+    .filter-option input[type="checkbox"]:focus + label::before,
+    .filter-option input[type="radio"]:focus + label::before {
+        box-shadow: 0 0 0 3px rgba(231,4,38,0.08);
     }
 
     .filter-option-desc {
@@ -326,23 +400,23 @@
     
     .provider-card { 
         background: white; 
-        padding: 18px 20px; 
-        border-radius: 4px; 
-        margin-bottom: 12px; 
-        border: 1px solid #ddd;
+        padding: 20px 20px; 
+        border-radius: 8px; 
+        margin-bottom: 20px; 
+        border: 1px solid #D0CFCD;
     }
     
     .provider-header { 
         display: flex; 
         justify-content: space-between; 
-        align-items: flex-start; 
-        margin-bottom: 10px; 
+        align-items: center; 
+        margin-bottom: 8px; 
         gap: 15px;
     }
     
     .provider-name { 
-        font-size: 16px; 
-        font-weight: 600; 
+        font-size: 20px; 
+        font-weight: 700; 
         color: #1a1a1a; 
         margin: 0;
     }
@@ -363,17 +437,17 @@
 
     .provider-badges { 
         display: flex; 
-        gap: 6px; 
+        gap: 8px; 
         flex-wrap: wrap; 
-        margin-bottom: 9px;
+        margin-bottom: 12px;
         align-items: center;
     }
     
     .badge { 
         display: inline-block; 
-        padding: 4px 9px; 
-        border-radius: 12px; 
-        font-size: 11px; 
+        padding: 5px 12px; 
+        border-radius: 14px; 
+        font-size: 12px; 
         font-weight: 600;
         white-space: nowrap;
     }
@@ -390,12 +464,18 @@
         background: #d0d0d0; 
         color: #333;
     }
-    
-    .badge.waiting { 
-        background: #A5D6A7; 
+
+    /* waiting states: short waits (green) and normal waits (orange) */
+    .badge.waiting-short {
+        background: #A5D6A7;
         color: #1b5e1b;
     }
-    
+
+    .badge.waiting { 
+        background: var(--cz-orange);
+        color: #ffffff;
+    }
+
     .badge.stress { 
         background: #4169E1; 
         color: white;
@@ -403,10 +483,10 @@
 
     .provider-info { 
         display: flex; 
-        gap: 15px; 
-        font-size: 11px; 
+        gap: 20px; 
+        font-size: 12px; 
         color: #666; 
-        margin-bottom: 8px;
+        margin-bottom: 12px;
     }
     
     .info-item { 
@@ -415,10 +495,21 @@
         gap: 4px;
     }
 
+    .card-separator {
+        height: 1px;
+        background: #D0CFCD;
+        margin: 12px 0;
+    }
+
+    /* compare checkbox in top-right of provider card */
+    .compare-wrapper { display:flex; align-items:center; gap:6px; color:#999; font-size:11px; flex-shrink:0 }
+    .compare-checkbox { width:16px; height:16px; cursor:pointer; flex-shrink:0; }
+    .compare-label { font-size:11px; color:#000000; cursor:pointer; white-space:nowrap; }
+
     .details-link { 
         color: #0066CC; 
         text-decoration: none; 
-        font-size: 12px; 
+        font-size: 15px; 
         font-weight: 600; 
         cursor: pointer; 
     }
@@ -619,11 +710,14 @@
                 <div class="provider-card">
                     <div class="provider-header">
                         <h2 class="provider-name">Praktijk Mentaal Welbevinden</h2>
-                        <button class="favorite-btn" aria-label="Voeg toe aan favorieten">☐</button>
+                        <div class="compare-wrapper">
+                            <input type="checkbox" id="compare-1" class="compare-checkbox">
+                            <label for="compare-1" class="compare-label">Vergelijk</label>
+                        </div>
                     </div>
                     <div class="provider-badges">
                         <span class="badge contract-cz">Contract CZ</span>
-                        <span class="badge waiting"><img src="images/clock.png" alt="clock" class="badge-icon"> x weken</span>
+                        <span class="badge waiting-short"><img src="images/clock.png" alt="clock" class="badge-icon"> &lt;2 weken</span>
                         <span class="badge stress">Stress & burn-out</span>
                     </div>
                     <div class="provider-info">
@@ -634,6 +728,7 @@
                             <img src="images/star.png" alt="star" class="info-icon"> 8,6 (034)
                         </div>
                     </div>
+                    <div class="card-separator"></div>
                     <a href="#" class="details-link">Bekijk details</a>
                 </div>
 
@@ -641,7 +736,10 @@
                 <div class="provider-card">
                     <div class="provider-header">
                         <h2 class="provider-name">GGZ Centrum Breda</h2>
-                        <button class="favorite-btn" aria-label="Voeg toe aan favorieten">☐</button>
+                        <div class="compare-wrapper">
+                            <input type="checkbox" id="compare-2" class="compare-checkbox">
+                            <label for="compare-2" class="compare-label">Vergelijk</label>
+                        </div>
                     </div>
                     <div class="provider-badges">
                         <span class="badge contract-cz">Contract CZ</span>
@@ -656,6 +754,7 @@
                             <img src="images/star.png" alt="star" class="info-icon"> 8,2 (73)
                         </div>
                     </div>
+                    <div class="card-separator"></div>
                     <a href="#" class="details-link">Bekijk details</a>
                 </div>
 
@@ -663,10 +762,13 @@
                 <div class="provider-card">
                     <div class="provider-header">
                         <h2 class="provider-name">Psychologenpraktijk De Haven</h2>
-                        <button class="favorite-btn" aria-label="Voeg toe aan favorieten">☐</button>
+                        <div class="compare-wrapper">
+                            <input type="checkbox" id="compare-3" class="compare-checkbox">
+                            <label for="compare-3" class="compare-label">Vergelijk</label>
+                        </div>
                     </div>
                     <div class="provider-badges">
-                        <span class="badge waiting"><img src="images/clock.png" alt="clock" class="badge-icon"> x+ weken</span>
+                        <span class="badge waiting-short"><img src="images/clock.png" alt="clock" class="badge-icon"> &lt;2 weken</span>
                         <span class="badge stress">Stress & burn-out</span>
                     </div>
                     <div class="provider-info">
@@ -677,6 +779,7 @@
                             <img src="images/star.png" alt="star" class="info-icon"> 9,1 (203)
                         </div>
                     </div>
+                    <div class="card-separator"></div>
                     <a href="#" class="details-link">Bekijk details</a>
                 </div>
 
@@ -684,7 +787,10 @@
                 <div class="provider-card">
                     <div class="provider-header">
                         <h2 class="provider-name">Mindcare Praktijk</h2>
-                        <button class="favorite-btn" aria-label="Voeg toe aan favorieten">☐</button>
+                        <div class="compare-wrapper">
+                            <input type="checkbox" id="compare-4" class="compare-checkbox">
+                            <label for="compare-4" class="compare-label">Vergelijk</label>
+                        </div>
                     </div>
                     <div class="provider-badges">
                         <span class="badge contract-cz">Contract CZ</span>
@@ -699,6 +805,7 @@
                             <img src="images/star.png" alt="star" class="info-icon"> 7,9 (54)
                         </div>
                     </div>
+                    <div class="card-separator"></div>
                     <a href="#" class="details-link">Bekijk details</a>
                 </div>
             </section>
