@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CZ - Vind de juiste zorgverlener</title>
+<link rel="stylesheet" href="resultpage.css">
+
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="top-nav-left">
+            <!-- the logo anchor stays here but is absolutely positioned by CSS -->
+            <a href="#" class="top-nav-logo" aria-label="CZ Home">
+                <img src="images/cz.png" alt="CZ logo" />
+            </a>
+
+            <div class="top-nav-links" role="navigation" aria-label="Top Navigation">
+                <a href="#">Consument</a>
+                <a href="#">Zakelijk</a>
+                <a href="#">ZZP</a>
+                <a href="#">Zorgaanbieder</a>
+                <a href="#">Over CZ</a>
+            </div>
+        </div>
+
+        <a href="#" class="login-btn" aria-label="Mijn CZ account">
+            <img src="images/user.png" alt="" aria-hidden="true" />
+            Mijn CZ
+        </a>
+    </nav>
+
+    <!-- Main Header -->
+    <header class="main-header" role="banner">
+        <nav class="main-nav" aria-label="Primary Navigation">
+            <a href="#" class="home" aria-label="Home">
+                <img src="images/home.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Zorgverzekering
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Vergoedingen
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                CZ Extra
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#">Betalen</a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Service &amp; Contact
+                <img src="images/down.png" alt="" />
+            </a>
+        </nav>
+        <div class="search-box" role="search">
+            <input type="text" placeholder="" aria-label="Zoek op website" />
+            <button aria-label="Search" type="button">
+                <img src="images/search red.png" alt="" />
+            </button>
+        </div>
+    </header>
+
+    <!-- Results Section -->
+    <main class="results-section">
+        <div class="results-header">
+            <h1>Zorgverleners in Breda</h1>
+            <p class="subtext" id="results-count">0 aanbieders gevonden</p>
+        </div>
+
+        <div class="active-filters-wrapper">
+            <span class="active-filters-label">Actieve filters:</span>
+            <div class="active-filters">
+                <div class="filter-tag">
+                    Binnen 10 km <button type="button">✕</button>
+                </div>
+                <div class="filter-tag">
+                    Contract CZ <button type="button">✕</button>
+                </div>
+                <div class="filter-tag">
+                    Specialisatie: stress <button type="button">✕</button>
+                </div>
+            </div>
+
+            <div class="sort-controls">
+                <label class="sort-label">Sorteren op:</label>
+                <select class="sort-dropdown">
+                    <option>Afstand</option>
+                    <option>Wachttijd</option>
+                    <option>Beoordeling</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="results-container">
+            <!-- Sidebar Filters -->
+            <aside class="filters-sidebar">
+                <div class="filters-header">
+                    <h2>Filters</h2>
+                    <a href="#">Wis alles</a>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Contract</h3>
+                    <div class="filter-option">
+                        <input type="checkbox" id="contract-cz">
+                        <label for="contract-cz">Contract CZ</label>
+                    </div>
+                    <div class="filter-option">
+                        <span class="filter-option-desc">Gecontracteerd = vaak hogere vergoeding en lagere eigen kosten</span>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Afstand</h3>
+                    <div class="filter-option">
+                        <input type="radio" name="distance" id="dist-1">
+                        <label for="dist-1">Binnen 5 km</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="distance" id="dist-2" checked>
+                        <label for="dist-2">Binnen 10 km</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="distance" id="dist-3">
+                        <label for="dist-3">Binnen 25 km</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="distance" id="dist-4">
+                        <label for="dist-4">Alle afstanden</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Wachttijd</h3>
+                    <div class="filter-option">
+                        <input type="radio" name="wait" id="wait-1">
+                        <label for="wait-1">Korter dan 2 weken</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="wait" id="wait-2">
+                        <label for="wait-2">2-6 weken</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="wait" id="wait-3">
+                        <label for="wait-3">Langer dan 6 weken</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="wait" id="wait-4" checked>
+                        <label for="wait-4">Alle wachtlijsten</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Specialisatie</h3>
+                    <div class="filter-option">
+                        <input type="checkbox" id="spec-1">
+                        <label for="spec-1">Stress & burn-out</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="spec-2">
+                        <label for="spec-2">Angst & paniek</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="spec-3">
+                        <label for="spec-3">Depressie</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="spec-4">
+                        <label for="spec-4">Trauma (EMDR)</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Digitale opties</h3>
+                    <div class="filter-option">
+                        <input type="checkbox" id="digital-1">
+                        <label for="digital-1">Digitale intake beschikbaar</label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Results List -->
+            <section class="results-list" id="results-list">
+            </section>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
