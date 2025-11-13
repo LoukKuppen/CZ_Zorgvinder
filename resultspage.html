@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CZ - Vind de juiste zorgverlener</title>
+<style>
+    :root{
+        --cz-red: #E40429;
+        --cz-orange: #EC6608;
+        --bg: #FAFAF9;
+        --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+        font-family:var(--font-main);
+        background:var(--bg);
+        min-height:100vh;
+    }
+
+    .top-nav {
+        position: relative;
+        background: linear-gradient(to right, var(--cz-orange) 0%, var(--cz-red) 100%);
+        padding: 11px 41px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .top-nav-left{
+        display:flex;
+        align-items:center;
+        gap:25px;
+    }
+
+    /* Logo badge — now absolutely positioned so it sits half on the orange and half on the white header */
+    .top-nav-logo {
+        position: absolute;
+        left: 220px;                /* align with top-nav padding */
+        bottom: -44px;            /* negative to overlap the header below (half of logo height) */
+        width: 88px;
+        height: 88px;
+        flex-shrink:0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 50; /* bring logo badge above the white header */
+           /* circular white badge behind the logo */
+    }
+    .top-nav-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+.top-nav-links {
+    display: flex;
+    gap: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    user-select: none;
+    padding-left: 335px; /* adjust this value */
+}
+
+    .top-nav-links a { color:white; text-decoration:none; font-weight:600; transition:opacity .2s}
+    .top-nav-links a:hover{opacity:.8}
+
+    .login-btn {
+        background: white;
+        color: var(--cz-red);
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+        text-decoration: none;
+        z-index: 40;
+    }
+    .login-btn img{width:16px;height:16px;display:block}
+
+    /* --- Main Header --- */
+    .main-header{
+        position: relative;
+        background: white;
+        padding: 10px 30px 8px; /* more top padding to prevent collision with overlapping badge */
+        display:flex;
+        align-items:center;
+        box-shadow: 0 2px 4px rgb(0 0 0 / 0.06);
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+        z-index: 10;
+        justify-content: space-between;
+        margin-top: 0px; /* small gap so the shadow reads well under top-nav */
+    }
+
+    /* ensure header content doesn't sit under the circular badge */
+    @media (min-width: 760px) {
+      .main-header { padding-left: 160px; } /* reserve horizontal space for the badge on left */
+    }
+
+    .main-nav{
+        display:flex;
+        gap:30px;
+        align-items:center;
+        flex:1;
+        margin-left:160px;
+    }
+    .main-nav a{ color:#000000; text-decoration:none; font-size:15px; font-weight:500; display:flex; align-items:center; gap:5px; user-select:none}
+    .main-nav a.home img{width:20px;height:20px;display:block}
+    .dropdown img{ width:10px;height:10px;margin-left:5px;display:block }
+
+    /* Search Box */
+    .search-box{
+        display:flex;
+        align-items:center;
+        border:1px solid #716F6A;
+        border-radius:4px;
+        padding:8px 15px;
+        background:white;
+        min-width:250px;
+    }
+    .search-box input{ border:none; outline:none; flex:1; font-size:14px }
+    .search-box button{ background:none; border:none; color:var(--cz-red); cursor:pointer; padding:0; display:flex; align-items:center }
+    .search-box button img{ width:18px; height:18px; display:block }
+
+    /* --- Results Section --- */
+    .results-section { 
+        padding: 30px 40px 40px 40px; 
+        background: #FAFAF9
+    }
+    
+    .results-header { 
+        margin-bottom: 20px; 
+    }
+    
+    .results-header h1 { 
+        font-size: 26px; 
+        color: #1a1a1a; 
+        margin-bottom: 6px; 
+        font-weight: 600; 
+    }
+    
+    .results-header .subtext { 
+        font-size: 12px; 
+        color: #666; 
+        margin-bottom: 15px; 
+    }
+
+    /* Active Filters */
+    .active-filters-wrapper {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .active-filters-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #000000;
+        margin-bottom: 0;
+        display: inline-block;
+        white-space: nowrap;
+    }
+
+    .active-filters { 
+        display: flex; 
+        gap: 6px; 
+        flex-wrap: wrap; 
+        margin-bottom: 0;
+        align-items: center;
+        flex: 1;
+    }
+    
+    .filter-tag { 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 6px; 
+        background: #EFEEEB; 
+        padding: 6px 12px; 
+        border-radius: 16px; 
+        font-size: 11px; 
+        color: #000000;
+        border: 1px solid #D0CFCD;
+    }
+    
+    .filter-tag button { 
+        background: none; 
+        border: none; 
+        cursor: pointer; 
+        color: #999; 
+        padding: 0;
+        font-size: 12px;
+        margin-left: 4px;
+    }
+
+    .filter-tag button:hover {
+        color: #666;
+    }
+
+    /* Sort Dropdown */
+    .sort-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+
+    .sort-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #000000;
+        white-space: nowrap;
+    }
+
+    .sort-dropdown { 
+        padding: 6px 10px; 
+        border: 1px solid #D0CFCD; 
+        border-radius: 7px; 
+        font-size: 12px; 
+        background: white; 
+        cursor: pointer;
+        color: #333;
+        min-width: 150px;
+    }
+
+    /* Results Container */
+    .results-container { 
+        display: flex; 
+        gap: 20px; 
+    }
+
+    /* Sidebar Filters */
+    .filters-sidebar { 
+        flex: 0 0 170px;
+        background: white;
+        border: 1px solid #D0CFCD;
+        border-radius: 4px;
+        padding: 15px;
+    }
+
+    .filters-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .filters-header h2 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #000000;
+        margin: 0;
+    }
+
+    .filters-header a {
+        font-size: 11px;
+        color: #0066CC;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .filters-header a:hover {
+        text-decoration: underline;
+    }
+
+    .filter-section { 
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #D0CFCD;
+    }
+
+    .filter-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .filter-section h3 { 
+        font-size: 15px; 
+        font-weight: 700; 
+        margin-bottom: 10px; 
+        color: #1a1a1a;
+    }
+    
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 8px;
+        position: relative;
+    }
+
+    /* hide native checkbox/radio but keep it accessible; we render a custom control via the label */
+    .filter-option input[type="checkbox"],
+    .filter-option input[type="radio"] {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 14px;
+        height: 14px;
+        margin: 0;
+        padding: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .filter-option label {
+        cursor: pointer;
+        font-size: 13px;
+        color: #333;
+        margin: 0;
+        line-height: 1.4;
+        padding-left: 24px; /* space for our custom control */
+        position: relative;
+        display: inline-block;
+        min-height: 14px;
+    }
+
+    /* base box/circle for unchecked state */
+    .filter-option label::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 14px;
+        height: 14px;
+        box-sizing: border-box;
+        border: 1px solid var(--cz-red);
+        background: #fff;
+        border-radius: 3px;
+    }
+
+    /* radios should be circular */
+    .filter-option input[type="radio"] + label::before {
+        border-radius: 50%;
+    }
+
+    /* checked states: show a visible red indicator */
+    .filter-option input[type="checkbox"]:checked + label::before {
+        background: var(--cz-red);
+    }
+
+    .filter-option input[type="radio"]:checked + label::before {
+        background: #fff; /* keep outer circle white so inner dot stands out */
+    }
+
+    /* inner mark: check for checkbox, dot for radio */
+    .filter-option label::after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    .filter-option input[type="checkbox"]:checked + label::after {
+        width: 6px;
+        height: 10px;
+        border: solid #fff;
+        border-width: 0 1px 1px 0;
+        transform: translateY(-50%) rotate(45deg);
+    }
+
+    .filter-option input[type="radio"]:checked + label::after {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--cz-red);
+        left: 4px;
+        transform: translateY(-50%);
+    }
+
+    /* small focus ring for keyboard users */
+    .filter-option input[type="checkbox"]:focus + label::before,
+    .filter-option input[type="radio"]:focus + label::before {
+        box-shadow: 0 0 0 3px rgba(231,4,38,0.08);
+    }
+
+    .filter-option-desc {
+        font-size: 11px;
+        color: #666;
+        display: block;
+        margin-top: 3px;
+        margin-left: 0;
+        line-height: 1.3;
+    }
+
+    /* Results List */
+    .results-list { 
+        flex: 1; 
+    }
+    
+    .provider-card { 
+        background: white; 
+        padding: 20px 20px; 
+        border-radius: 8px; 
+        margin-bottom: 20px; 
+        border: 1px solid #D0CFCD;
+    }
+    
+    .provider-header { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        margin-bottom: 8px; 
+        gap: 15px;
+    }
+    
+    .provider-name { 
+        font-size: 20px; 
+        font-weight: 700; 
+        color: #1a1a1a; 
+        margin: 0;
+    }
+    
+    .favorite-btn { 
+        background: none; 
+        border: none; 
+        cursor: pointer; 
+        font-size: 16px;
+        color: #ccc;
+        padding: 0;
+        flex-shrink: 0;
+    }
+
+    .favorite-btn:hover {
+        color: #999;
+    }
+
+    .provider-badges { 
+        display: flex; 
+        gap: 8px; 
+        flex-wrap: wrap; 
+        margin-bottom: 12px;
+        align-items: center;
+    }
+    
+    .badge { 
+        display: inline-block; 
+        padding: 5px 12px; 
+        border-radius: 14px; 
+        font-size: 12px; 
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .badge-icon {
+        width: 12px;
+        height: 12px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    
+    .badge.contract-cz { 
+        background: #d0d0d0; 
+        color: #333;
+    }
+
+    /* waiting states: short waits (green) and normal waits (orange) */
+    .badge.waiting-short {
+        background: #A5D6A7;
+        color: #1b5e1b;
+    }
+
+    .badge.waiting { 
+        background: var(--cz-orange);
+        color: #ffffff;
+    }
+
+    .badge.stress { 
+        background: #4169E1; 
+        color: white;
+    }
+
+    .provider-info { 
+        display: flex; 
+        gap: 20px; 
+        font-size: 12px; 
+        color: #666; 
+        margin-bottom: 12px;
+    }
+    
+    .info-item { 
+        display: flex; 
+        align-items: center; 
+        gap: 4px;
+    }
+
+    .card-separator {
+        height: 1px;
+        background: #D0CFCD;
+        margin: 12px 0;
+    }
+
+    /* compare checkbox in top-right of provider card */
+    .compare-wrapper { display:flex; align-items:center; gap:6px; color:#999; font-size:11px; flex-shrink:0 }
+    .compare-checkbox { width:16px; height:16px; cursor:pointer; flex-shrink:0; }
+    .compare-label { font-size:11px; color:#000000; cursor:pointer; white-space:nowrap; }
+
+    .details-link { 
+        color: #0066CC; 
+        text-decoration: none; 
+        font-size: 15px; 
+        font-weight: 600; 
+        cursor: pointer; 
+    }
+    
+    .details-link:hover { 
+        text-decoration: underline; 
+    }
+
+    /* --- Responsive tweaks --- */
+    @media (max-width: 760px){
+        .top-nav { padding: 8px 16px; }
+        .top-nav-logo { left: 16px; width:64px; height:64px; bottom:-34px; padding:6px; }
+        .main-header{ padding-left: 16px; padding-right:16px; padding-top:22px; }
+        .main-header { padding-bottom: 12px; }
+        .main-header { margin-top: 0; }
+        .hero-section { padding-top: 60px; }
+    }
+</style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="top-nav-left">
+            <!-- the logo anchor stays here but is absolutely positioned by CSS -->
+            <a href="#" class="top-nav-logo" aria-label="CZ Home">
+                <img src="images/cz.png" alt="CZ logo" />
+            </a>
+
+            <div class="top-nav-links" role="navigation" aria-label="Top Navigation">
+                <a href="#">Consument</a>
+                <a href="#">Zakelijk</a>
+                <a href="#">ZZP</a>
+                <a href="#">Zorgaanbieder</a>
+                <a href="#">Over CZ</a>
+            </div>
+        </div>
+
+        <a href="#" class="login-btn" aria-label="Mijn CZ account">
+            <img src="images/user.png" alt="" aria-hidden="true" />
+            Mijn CZ
+        </a>
+    </nav>
+
+    <!-- Main Header -->
+    <header class="main-header" role="banner">
+        <nav class="main-nav" aria-label="Primary Navigation">
+            <a href="#" class="home" aria-label="Home">
+                <img src="images/home.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Zorgverzekering
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Vergoedingen
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                CZ Extra
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#">Betalen</a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Service &amp; Contact
+                <img src="images/down.png" alt="" />
+            </a>
+        </nav>
+        <div class="search-box" role="search">
+            <input type="text" placeholder="" aria-label="Zoek op website" />
+            <button aria-label="Search" type="button">
+                <img src="images/search red.png" alt="" />
+            </button>
+        </div>
+    </header>
+
+    <!-- Results Section -->
+    <main class="results-section">
+        <div class="results-header">
+            <h1>Zorgverleners in Breda</h1>
+            <p class="subtext">24 aanbieders gevonden</p>
+        </div>
+
+        <div class="active-filters-wrapper">
+            <span class="active-filters-label">Actieve filters:</span>
+            <div class="active-filters">
+                <div class="filter-tag">
+                    Binnen 10 km <button type="button">✕</button>
+                </div>
+                <div class="filter-tag">
+                    Contract CZ <button type="button">✕</button>
+                </div>
+                <div class="filter-tag">
+                    Specialisatie: stress <button type="button">✕</button>
+                </div>
+            </div>
+
+            <div class="sort-controls">
+                <label class="sort-label">Sorteren op:</label>
+                <select class="sort-dropdown">
+                    <option>Afstand</option>
+                    <option>Wachttijd</option>
+                    <option>Beoordeling</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="results-container">
+            <!-- Sidebar Filters -->
+            <aside class="filters-sidebar">
+                <div class="filters-header">
+                    <h2>Filters</h2>
+                    <a href="#">Wis alles</a>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Contract</h3>
+                    <div class="filter-option">
+                        <input type="checkbox" id="contract-cz">
+                        <label for="contract-cz">Contract CZ</label>
+                    </div>
+                    <div class="filter-option">
+                        <span class="filter-option-desc">Gecontracteerd = vaak hogere vergoeding en lagere eigen kosten</span>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Afstand</h3>
+                    <div class="filter-option">
+                        <input type="radio" name="distance" id="dist-1">
+                        <label for="dist-1">Binnen 5 km</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="distance" id="dist-2" checked>
+                        <label for="dist-2">Binnen 10 km</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="distance" id="dist-3">
+                        <label for="dist-3">Binnen 25 km</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="distance" id="dist-4">
+                        <label for="dist-4">Alle afstanden</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Wachttijd</h3>
+                    <div class="filter-option">
+                        <input type="radio" name="wait" id="wait-1">
+                        <label for="wait-1">Korter dan 2 weken</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="wait" id="wait-2">
+                        <label for="wait-2">2-6 weken</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="wait" id="wait-3">
+                        <label for="wait-3">Langer dan 6 weken</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" name="wait" id="wait-4" checked>
+                        <label for="wait-4">Alle wachtlijsten</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Specialisatie</h3>
+                    <div class="filter-option">
+                        <input type="checkbox" id="spec-1">
+                        <label for="spec-1">Stress & burn-out</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="spec-2">
+                        <label for="spec-2">Angst & paniek</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="spec-3">
+                        <label for="spec-3">Depressie</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="spec-4">
+                        <label for="spec-4">Trauma (EMDR)</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Digitale opties</h3>
+                    <div class="filter-option">
+                        <input type="checkbox" id="digital-1">
+                        <label for="digital-1">Digitale intake beschikbaar</label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Results List -->
+            <section class="results-list">
+                <!-- Provider Card 1 -->
+                <div class="provider-card">
+                    <div class="provider-header">
+                        <h2 class="provider-name">Praktijk Mentaal Welbevinden</h2>
+                        <div class="compare-wrapper">
+                            <input type="checkbox" id="compare-1" class="compare-checkbox">
+                            <label for="compare-1" class="compare-label">Vergelijk</label>
+                        </div>
+                    </div>
+                    <div class="provider-badges">
+                        <span class="badge contract-cz">Contract CZ</span>
+                        <span class="badge waiting-short"><img src="images/clock.png" alt="clock" class="badge-icon"> &lt;2 weken</span>
+                        <span class="badge stress">Stress & burn-out</span>
+                    </div>
+                    <div class="provider-info">
+                        <div class="info-item">
+                            <img src="images/location.png" alt="location" class="info-icon"> 4,0 km
+                        </div>
+                        <div class="info-item">
+                            <img src="images/star.png" alt="star" class="info-icon"> 8,6 (034)
+                        </div>
+                    </div>
+                    <div class="card-separator"></div>
+                    <a href="#" class="details-link">Bekijk details</a>
+                </div>
+
+                <!-- Provider Card 2 -->
+                <div class="provider-card">
+                    <div class="provider-header">
+                        <h2 class="provider-name">GGZ Centrum Breda</h2>
+                        <div class="compare-wrapper">
+                            <input type="checkbox" id="compare-2" class="compare-checkbox">
+                            <label for="compare-2" class="compare-label">Vergelijk</label>
+                        </div>
+                    </div>
+                    <div class="provider-badges">
+                        <span class="badge contract-cz">Contract CZ</span>
+                        <span class="badge waiting"><img src="images/clock.png" alt="clock" class="badge-icon"> 2-4 weken</span>
+                        <span class="badge stress">Angst & Depressie</span>
+                    </div>
+                    <div class="provider-info">
+                        <div class="info-item">
+                            <img src="images/location.png" alt="location" class="info-icon"> 5,2 km
+                        </div>
+                        <div class="info-item">
+                            <img src="images/star.png" alt="star" class="info-icon"> 8,2 (73)
+                        </div>
+                    </div>
+                    <div class="card-separator"></div>
+                    <a href="#" class="details-link">Bekijk details</a>
+                </div>
+
+                <!-- Provider Card 3 -->
+                <div class="provider-card">
+                    <div class="provider-header">
+                        <h2 class="provider-name">Psychologenpraktijk De Haven</h2>
+                        <div class="compare-wrapper">
+                            <input type="checkbox" id="compare-3" class="compare-checkbox">
+                            <label for="compare-3" class="compare-label">Vergelijk</label>
+                        </div>
+                    </div>
+                    <div class="provider-badges">
+                        <span class="badge waiting-short"><img src="images/clock.png" alt="clock" class="badge-icon"> &lt;2 weken</span>
+                        <span class="badge stress">Stress & burn-out</span>
+                    </div>
+                    <div class="provider-info">
+                        <div class="info-item">
+                            <img src="images/location.png" alt="location" class="info-icon"> 6,8 km
+                        </div>
+                        <div class="info-item">
+                            <img src="images/star.png" alt="star" class="info-icon"> 9,1 (203)
+                        </div>
+                    </div>
+                    <div class="card-separator"></div>
+                    <a href="#" class="details-link">Bekijk details</a>
+                </div>
+
+                <!-- Provider Card 4 -->
+                <div class="provider-card">
+                    <div class="provider-header">
+                        <h2 class="provider-name">Mindcare Praktijk</h2>
+                        <div class="compare-wrapper">
+                            <input type="checkbox" id="compare-4" class="compare-checkbox">
+                            <label for="compare-4" class="compare-label">Vergelijk</label>
+                        </div>
+                    </div>
+                    <div class="provider-badges">
+                        <span class="badge contract-cz">Contract CZ</span>
+                        <span class="badge waiting"><img src="images/clock.png" alt="clock" class="badge-icon"> 6-8 weken</span>
+                        <span class="badge stress">Stress & burn-out</span>
+                    </div>
+                    <div class="provider-info">
+                        <div class="info-item">
+                            <img src="images/location.png" alt="location" class="info-icon"> 7,5 km
+                        </div>
+                        <div class="info-item">
+                            <img src="images/star.png" alt="star" class="info-icon"> 7,9 (54)
+                        </div>
+                    </div>
+                    <div class="card-separator"></div>
+                    <a href="#" class="details-link">Bekijk details</a>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
