@@ -6,54 +6,235 @@
     <title>CZ Zorgvinder Detail v2</title>
     <link rel="stylesheet" href="css/DetailPage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    :root{
+        --cz-red: #E40429;
+        --cz-orange: #EC6608;
+        --bg: #FEF6F3;
+        --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+        font-family:var(--font-main);
+        background:var(--bg);
+        min-height:100vh;
+    }
+
+    /* --- Top Navigation Bar --- */
+    .top-nav {
+        position: relative; /* allow absolute-positioned logo inside */
+        background: linear-gradient(to right, var(--cz-orange) 0%, var(--cz-red) 100%);
+        padding: 11px 41px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .top-nav-left{
+        display:flex;
+        align-items:center;
+        gap:25px;
+    }
+
+    /* Logo badge — now absolutely positioned so it sits half on the orange and half on the white header */
+    .top-nav-logo {
+        position: absolute;
+        left: 220px;                /* align with top-nav padding */
+        bottom: -44px;            /* negative to overlap the header below (half of logo height) */
+        width: 88px;
+        height: 88px;
+        flex-shrink:0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+           /* circular white badge behind the logo */
+    }
+    .top-nav-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+.top-nav-links {
+    display: flex;
+    gap: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    user-select: none;
+    padding-left: 335px; /* adjust this value */
+}
+
+    .top-nav-links a { color:white; text-decoration:none; font-weight:600; transition:opacity .2s}
+    .top-nav-links a:hover{opacity:.8}
+
+    .login-btn {
+        background: white;
+        color: var(--cz-red);
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+        text-decoration: none;
+        z-index: 40;
+    }
+    .login-btn img{width:16px;height:16px;display:block}
+
+    /* --- Main Header --- */
+    .main-header{
+        background: white;
+        padding: 10px 30px 8px; /* more top padding to prevent collision with overlapping badge */
+        display:flex;
+        align-items:center;
+        box-shadow: 0 2px 4px rgb(0 0 0 / 0.06);
+        justify-content: space-between;
+        margin-top: 0px; /* small gap so the shadow reads well under top-nav */
+    }
+
+    /* ensure header content doesn't sit under the circular badge */
+    @media (min-width: 760px) {
+      .main-header { padding-left: 160px; } /* reserve horizontal space for the badge on left */
+    }
+
+    .main-nav{
+        display:flex;
+        gap:30px;
+        align-items:center;
+        flex:1;
+        margin-left:160px;
+    }
+    .main-nav a{ color:#000000; text-decoration:none; font-size:15px; font-weight:500; display:flex; align-items:center; gap:5px; user-select:none}
+    .main-nav a.home img{width:20px;height:20px;display:block}
+    .dropdown img{ width:10px;height:10px;margin-left:5px;display:block }
+
+    /* Search Box */
+    .search-box{
+        display:flex;
+        align-items:center;
+        border:1px solid #716F6A;
+        border-radius:4px;
+        padding:8px 15px;
+        background:white;
+        min-width:250px;
+    }
+    .search-box input{ border:none; outline:none; flex:1; font-size:14px }
+    .search-box button{ background:none; border:none; color:var(--cz-red); cursor:pointer; padding:0; display:flex; align-items:center }
+    .search-box button img{ width:18px; height:18px; display:block }
+
+    /* --- Hero Section --- */
+    .hero-section { text-align:center; padding:80px 20px 60px }
+    .hero-section h1{ font-size:42px; color:#1a1a1a; margin-bottom:20px; font-weight:600 }
+    .hero-section p{ font-size:16px; color:#555; margin-bottom:50px; line-height:1.6; white-space:pre-line }
+
+    /* --- Search Card --- */
+    .search-card{
+        background:white;
+        border-radius:8px;
+        padding:40px;
+        max-width:560px;
+        margin:0 auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        text-align:left;
+    }
+    .form-group{ margin-bottom:25px }
+    .form-group label{ display:block; font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:12px; text-align:left; font-weight: bold; }
+
+    .input-wrapper{ position:relative }
+    .input-wrapper .input-icon{ position:absolute; left:14px; top:50%; transform:translateY(-50%); width:18px; height:18px; opacity:.7; pointer-events:none }
+    .input-wrapper input{
+        width:100%; padding:14px 14px 14px 44px; border:1px solid #D0CFCD; border-radius:10px; font-size:14px; outline:none; transition:border-color .2s
+    }
+    .input-wrapper input:focus{ border-color:var(--cz-red) }
+
+    .submit-btn{
+        width:100%;
+        background:var(--cz-red);
+        color:white;
+        padding:16px;
+        border:none;
+        border-radius:4px;
+        font-size:16px;
+        font-weight:600;
+        cursor:pointer;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:10px;
+        transition:background .2s;
+    }
+    .submit-btn:hover{ background:#e40429 }
+    .submit-btn img{ width:18px;height:18px;display:block }
+    input::placeholder{ color:#716F6A }
+
+    /* --- Responsive tweaks --- */
+    @media (max-width: 760px){
+        .top-nav { padding: 8px 16px; }
+        .top-nav-logo { left: 16px; width:64px; height:64px; bottom:-34px; padding:6px; }
+        .main-header{ padding-left: 16px; padding-right:16px; padding-top:22px; }
+        .main-header { padding-bottom: 12px; }
+        .main-header { margin-top: 0; }
+        .hero-section { padding-top: 60px; }
+    }
+</style>
 </head>
 <body>
-    <!-- Top Banner -->
-    <header class="top-banner">
-        <div class="container">
-            <nav class="top-nav">
-                <ul class="top-nav-list">
-                    <li><a href="#" class="active">Consument</a></li>
-                    <li><a href="#">Zakelijk</a></li>
-                    <li><a href="#">ZZP</a></li>
-                    <li><a href="#">Zorgaanbieder</a></li>
-                </ul>
-                <a href="#" class="top-nav-link">Over CZ</a>
-            </nav>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="top-nav-left">
+            <!-- the logo anchor stays here but is absolutely positioned by CSS -->
+            <a href="#" class="top-nav-logo" aria-label="CZ Home">
+                <img src="images/cz.png" alt="CZ logo" />
+            </a>
+
+            <div class="top-nav-links" role="navigation" aria-label="Top Navigation">
+                <a href="#">Consument</a>
+                <a href="#">Zakelijk</a>
+                <a href="#">ZZP</a>
+                <a href="#">Zorgaanbieder</a>
+                <a href="#">Over CZ</a>
+            </div>
         </div>
-    </header>
+
+        <a href="#" class="login-btn" aria-label="Mijn CZ account">
+            <img src="images/user.png" alt="" aria-hidden="true" />
+            Mijn CZ
+        </a>
+    </nav>
 
     <!-- Main Header -->
-    <header class="main-header">
-        <div class="container main-header-content">
-            <!-- Logo -->
-            <div class="logo">
-                <img src="img/CzLogo.gif" alt="CZ Logo" class="logo-image">
-            </div>
-
-            <!-- Main Navigation -->
-            <nav class="main-nav">
-                <ul class="main-nav-list">
-                    <li><a href="#"><i class="fas fa-home"></i></a></li>
-                    <li><a href="#">Zorgverzekering <i class="fas fa-chevron-down"></i></a></li>
-                    <li><a href="#">Vergoedingen <i class="fas fa-chevron-down"></i></a></li>
-                    <li><a href="#">CZ Extra <i class="fas fa-chevron-down"></i></a></li>
-                    <li><a href="#">Betalen <i class="fas fa-chevron-down"></i></a></li>
-                    <li><a href="#">Service & Contact <i class="fas fa-chevron-down"></i></a></li>
-                </ul>
-            </nav>
-
-            <!-- Right Buttons -->
-            <div class="header-right">
-                <button class="btn-mijn-cz">
-                    <i class="fas fa-user"></i>
-                    Mijn CZ
-                </button>
-                <div class="search-bar">
-                    <input type="text" placeholder="Zoeken...">
-                    <i class="fas fa-search"></i>
-                </div>
-            </div>
+    <header class="main-header" role="banner">
+        <nav class="main-nav" aria-label="Primary Navigation">
+            <a href="#" class="home" aria-label="Home">
+                <img src="images/home.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Zorgverzekering
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Vergoedingen
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                CZ Extra
+                <img src="images/down.png" alt="" />
+            </a>
+            <a href="#">Betalen</a>
+            <a href="#" class="dropdown" aria-haspopup="true" aria-expanded="false">
+                Service &amp; Contact
+                <img src="images/down.png" alt="" />
+            </a>
+        </nav>
+        <div class="search-box" role="search">
+            <input type="text" placeholder="" aria-label="Zoek op website" />
+            <button aria-label="Search" type="button">
+                <img src="images/search red.png" alt="" />
+            </button>
         </div>
     </header>
 
