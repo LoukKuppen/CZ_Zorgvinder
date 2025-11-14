@@ -24,11 +24,15 @@
                 <a href="#">Over CZ</a>
             </div>
         </div>
-
+        <select onchange="setLanguage(this.value)" style="padding: 6px; border-radius: 6px;">
+            <option value="nl">🇳🇱 Nederlands</option>
+            <option value="en">🇬🇧 English</option>
+        </select>
         <a href="#" class="login-btn" aria-label="Mijn CZ account">
             <img src="images/user.png" alt="" aria-hidden="true" />
             Mijn CZ
         </a>
+
     </nav>
 
     <!-- Main Header -->
@@ -61,6 +65,7 @@
                 <img src="images/search red.png" alt="" />
             </button>
         </div>
+        
     </header>
 
     <!-- Results Section -->
@@ -188,5 +193,6 @@
         </div>
     </main>
     <script src="script.js"></script>
+    <script src="language.js"></script>
 </body>
 </html>
