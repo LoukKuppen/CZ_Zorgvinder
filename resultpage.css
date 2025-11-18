@@ -379,6 +379,16 @@ padding-left: 335px; /* adjust this value */
     color: #333;
 }
 
+.badge.warning {
+    background: #ffe0b2;
+    color: #8c6d1f;
+}
+
+.badge.muted {
+    background: #f0f0f0;
+    color: #555;
+}
+
 .badge.waiting { 
     background: #A5D6A7; 
     color: #1b5e1b;
